@@ -52,6 +52,7 @@
     <Compile Include="Database\DatabaseController.cs" />
     <Compile Include="Database\GameController.cs" />
     <Compile Include="Database\GenreController.cs" />
+    <Compile Include="Database\StudentController.cs" />
     <Compile Include="EditForms\EditGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,6 +64,12 @@
     </Compile>
     <Compile Include="EditForms\EditGenreForm.Designer.cs">
       <DependentUpon>EditGenreForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditForms\EditStudentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditForms\EditStudentForm.Designer.cs">
+      <DependentUpon>EditStudentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm\GameMainForm.cs">
       <SubType>Form</SubType>
@@ -77,8 +84,12 @@
     <Compile Include="MainForm\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm\StudentMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\Student.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EditForms\EditGameForm.resx">
@@ -86,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditForms\EditGenreForm.resx">
       <DependentUpon>EditGenreForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditForms\EditStudentForm.resx">
+      <DependentUpon>EditStudentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -14,12 +14,12 @@ namespace DatabaseExample
             genres = genreController.GetAllGenres();
             if (genres != null)
             {
-                LV_Genres.Items.Clear();
+                LV_Genre.Items.Clear();
 
                 foreach (Genre gen in genres)
                 {
                     string[] subitems = { gen.Name.ToString(), gen.Verslavend.ToString() };
-                    LV_Genres.Items.Add(gen.ID.ToString()).SubItems.AddRange(subitems);
+                    LV_Genre.Items.Add(gen.ID.ToString()).SubItems.AddRange(subitems);
                 }
             }
         }
@@ -40,11 +40,10 @@ namespace DatabaseExample
                     DatabaseNotification("Genre successfully added.");
                     RefreshGenreListView();
                 }
-
-                if (result == DialogResult.Yes)
+                else if (result == DialogResult.Yes)
                 {
                     genreController.GenreUpdate(form.GenreToEdit);
-                    DatabaseNotification("Genre successfully  added.");
+                    DatabaseNotification("Genre successfully updated.");
                     RefreshGenreListView();
                 }
             }
@@ -56,9 +55,9 @@ namespace DatabaseExample
         /// <returns>Returns genre with the same id as the listview.</returns>
         private Genre GetGenreFromListView()
         {
-            if (LV_Genres.SelectedItems.Count > 0)
+            if (LV_Genre.SelectedItems.Count > 0)
             {
-                ListViewItem lvitem = LV_Genres.SelectedItems[0];
+                ListViewItem lvitem = LV_Genre.SelectedItems[0];
 
                 foreach (Genre gen in genres)
                 {
@@ -104,16 +103,17 @@ namespace DatabaseExample
         {
             Genre deleteThis = GetGenreFromListView();
 
-            string deleteMSG = "Are you sure you want to delete '" + deleteThis.Name + "' from the database?";
-
-            DialogResult result = MessageBox.Show(deleteMSG, "Deleting item", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-
-            if (deleteThis != null && result == DialogResult.OK)
+            if (deleteThis != null)
             {
-                genreController.DeleteGenre(deleteThis);
-                //MessageBox.Show("Genre successfully deleted.", "Database Update", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                DatabaseNotification("Genre successfully deleted");
-                RefreshGenreListView();
+                DialogResult result = MessageBox.Show("Are you sure you want to delete '" + deleteThis.Name + "' from the database?", "Deleting item", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.OK)
+                {
+                    genreController.DeleteGenre(deleteThis);
+                    //MessageBox.Show("Genre successfully deleted.", "Database Update", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
+                    DatabaseNotification("Genre successfully deleted");
+                    RefreshGenreListView();
+                }
             }
         }
 

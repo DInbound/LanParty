@@ -117,7 +117,9 @@
             this.Text = "Edit A Genre";
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            this.AcceptButton = BTN_Genre_Save;
+            this.CancelButton = BTN_Genre_Cancel;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         }
 
         #endregion

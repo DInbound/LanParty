@@ -33,8 +33,10 @@ namespace DatabaseExample
 
         private void BTN_Save_Click(object sender, EventArgs e)
         {
+            // Check if a name is filled in for the genre
             if(TB_Genre_Name.Text.Length >= 3 && TB_Genre_Name.Text != null)
             {
+                // Set name and if the genre is verslavend for the output
                 GenreToEdit.Name = TB_Genre_Name.Text;
                 GenreToEdit.Verslavend = CB_Genre_Addictive.Checked;
 
@@ -43,6 +45,7 @@ namespace DatabaseExample
                 {
                     if (g.Name.Equals(TB_Genre_Name.Text))
                     {
+                        // A genre is present with the same name!
                         DialogResult replaceResult = MessageBox.Show("The genre '" + g.Name + "'already exists, do you wish to replace it?", "Entry already exists", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
 
                         if (replaceResult == DialogResult.Yes)
@@ -55,6 +58,11 @@ namespace DatabaseExample
                         else if (replaceResult == DialogResult.No)
                         {
                             this.DialogResult = DialogResult.No;
+                            this.Close();
+                            return;
+                        }
+                        else
+                        {
                             return;
                         }
                     }

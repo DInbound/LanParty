@@ -33,10 +33,16 @@ namespace DatabaseExample
             {
                 DialogResult result = form.ShowDialog();
 
-                if (result == DialogResult.OK)
+                if (result == DialogResult.OK || result == DialogResult.No)
                 {
                     gameController.InsertGame(form.GameToEdit);
                     DatabaseNotification("Game successfully added.");
+                    RefreshGameListView();
+                }
+                else if(result == DialogResult.Yes)
+                {
+                    gameController.GameUpdate(form.GameToEdit);
+                    DatabaseNotification("Game successfully updated.");
                     RefreshGameListView();
                 }
             }

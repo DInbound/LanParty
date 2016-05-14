@@ -10,9 +10,11 @@ namespace DatabaseExample
     {
         private GenreController genreController;
         private GameController gameController;
+        private StudentController studentController;
 
         private List<Genre> genres;
         private List<Game> games;
+        private List<Student> studenten;
 
         private ListViewColumnSorter lvColumnSorter;
 
@@ -28,16 +30,21 @@ namespace DatabaseExample
             genreController = new GenreController();
             genres = genreController.GetAllGenres();
 
+            // Initialize Student Tab
+            studentController = new StudentController();
+            studenten = studentController.GetAllStudenten();
+
             // Create Sorter
             //lvColumnSorter = new ListViewColumnSorter();
 
             // Set Sorter
-            LV_Genres.ListViewItemSorter = lvColumnSorter;
+            LV_Genre.ListViewItemSorter = lvColumnSorter;
             LV_Game.ListViewItemSorter = lvColumnSorter;
 
             // Fill Lists
             RefreshGameListView();
             RefreshGenreListView();
+            RefreshStudentListView();
         }
 
         // This code is for sorting columns
@@ -65,7 +72,7 @@ namespace DatabaseExample
                     lvColumnSorter.Order = SortOrder.Ascending;
                 }
 
-                LV_Genres.Sort();
+                LV_Genre.Sort();
             }
         }
 
@@ -106,6 +113,9 @@ namespace DatabaseExample
         {
             RefreshGameListView();
             RefreshGenreListView();
+            RefreshStudentListView();
         }
+
+
     }
 }

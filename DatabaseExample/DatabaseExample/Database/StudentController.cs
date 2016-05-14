@@ -5,19 +5,17 @@ using MySql.Data.MySqlClient;
 
 namespace DatabaseExample.Database
 {
-    public class GameController : DatabaseController
+    class StudentController : DatabaseController
     {
-        //CRUD functions for the Game
-        // C = Create
-        // R = Rename
-        // U = Update
-        // D = Delete
+        /*
+            CRUD
+            - Create
+            - Rename
+            - Update
+            - Delete
+        */
 
-        /// <summary>
-        /// Inserts a game into the database.
-        /// </summary>
-        /// <param name="game">The game to insert.</param>
-        public void InsertGame(Game game)
+        public bool InsertStudent(Student student)
         {
             MySqlTransaction trans = null;
             try
@@ -28,31 +26,28 @@ namespace DatabaseExample.Database
             {
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not connect to server.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            // Start a transaction
             trans = conn.BeginTransaction();
+            string insertQuery = @"INSERT INTO student (studentnaam, geboortedatum, studiepunten, game_id) VALUES (@studentnaam, @geboortedatum, @studiepunten, @game_id)";
 
-            // Make Query
-            string insertQuery = @"INSERT INTO lanparty.game (gamenaam, genre_id) VALUES (@gamenaam, @genre)";
-
-            // Create command
             MySqlCommand cmd = new MySqlCommand(insertQuery, conn);
+            MySqlParameter studentnaamParam = new MySqlParameter("@studentnaam", MySqlDbType.VarChar);
+            MySqlParameter geboortedatumParam = new MySqlParameter("@geboortedatum", MySqlDbType.DateTime);
+            MySqlParameter studiepuntenParam = new MySqlParameter("@studiepunten", MySqlDbType.Int32);
+            MySqlParameter game_idParam = new MySqlParameter("@game_id", MySqlDbType.Int32);
 
-            // Create Parameters
-            MySqlParameter naamParam = new MySqlParameter("@gamenaam", MySqlDbType.VarChar);
-            MySqlParameter genreParam = new MySqlParameter("@genre", MySqlDbType.Int32);
+            studentnaamParam.Value = student.StudentNaam;
+            geboortedatumParam.Value = student.GeboorteDatum;
+            studiepuntenParam.Value = student.StudiePunten;
+            game_idParam.Value = student.Game.ID;
 
-            // Add values to parameters
-            naamParam.Value = game.Name;
-            genreParam.Value = game.Genre.ID;
+            cmd.Parameters.Add(studentnaamParam);
+            cmd.Parameters.Add(geboortedatumParam);
+            cmd.Parameters.Add(studiepuntenParam);
+            cmd.Parameters.Add(game_idParam);
 
-            // Add parameters to command
-            cmd.Parameters.Add(naamParam);
-            cmd.Parameters.Add(genreParam);
-
-            // Prepare command
             try
             {
                 cmd.Prepare();
@@ -61,10 +56,9 @@ namespace DatabaseExample.Database
             {
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not prepare command.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            // Execute command
             try
             {
                 cmd.ExecuteNonQuery();
@@ -74,10 +68,9 @@ namespace DatabaseExample.Database
                 trans.Rollback();
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not execute query.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
-            // Commit changes
             try
             {
                 trans.Commit();
@@ -85,20 +78,20 @@ namespace DatabaseExample.Database
             catch (Exception ex)
             {
                 trans.Rollback();
-                System.Windows.Forms.MessageBox.Show("Could not commit changes.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-            }
-            finally
-            {
                 conn.Close();
+                System.Windows.Forms.MessageBox.Show("Could not commit changes.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
             }
-            return;
+
+            conn.Close();
+            return true;
         }
 
         /// <summary>
-        /// Updates a given genre
+        /// Updates a given student
         /// </summary>
-        /// <returns>Returns true when update is successfully applied.</returns>
-        public bool GameUpdate(Game game)
+        /// <returns>Returns TRUE when the update has succeeded.</returns>
+        public bool StudentUpdate(Student student)
         {
             MySqlTransaction trans = null;
             try
@@ -115,23 +108,31 @@ namespace DatabaseExample.Database
             trans = conn.BeginTransaction();
 
             // Query
-            string updateQuery = @"UPDATE game SET gamenaam = @gamenaam, genre_id = @genre WHERE game_id = @ID";
+            string updateQuery = @"UPDATE student SET studentnaam = @studentnaam, geboortedatum = @geboortedatum, studiepunten = @studiepunten, game_id = @game_id WHERE student_id = @student_id";
 
             // Create new command
             MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
 
             // Create parameters
-            MySqlParameter idParam = new MySqlParameter("@ID", MySqlDbType.Int32);
-            MySqlParameter gameParam = new MySqlParameter("@gamenaam", MySqlDbType.VarChar);
-            MySqlParameter genreParam = new MySqlParameter("@genre", MySqlDbType.Bit);
+            MySqlParameter studentID = new MySqlParameter("@student_id", MySqlDbType.Int32);
+            MySqlParameter studentnaamParam = new MySqlParameter("@studentnaam", MySqlDbType.VarChar);
+            MySqlParameter geboortedatumParam = new MySqlParameter("@geboortedatum", MySqlDbType.DateTime);
+            MySqlParameter studiepuntenParam = new MySqlParameter("@studiepunten", MySqlDbType.Int32);
+            MySqlParameter game_idParam = new MySqlParameter("@game_id", MySqlDbType.Int32);
 
-            idParam.Value = game.ID;
-            gameParam.Value = game.Name;
-            genreParam.Value = game.Genre.ID;
+            // Set Values
+            studentID.Value = student.ID;
+            studentnaamParam.Value = student.StudentNaam;
+            geboortedatumParam.Value = student.GeboorteDatum;
+            studiepuntenParam.Value = student.StudiePunten;
+            game_idParam.Value = student.Game.ID;
 
-            cmd.Parameters.Add(idParam);
-            cmd.Parameters.Add(gameParam);
-            cmd.Parameters.Add(genreParam);
+            // Add Parameters
+            cmd.Parameters.Add(studentID);
+            cmd.Parameters.Add(studentnaamParam);
+            cmd.Parameters.Add(geboortedatumParam);
+            cmd.Parameters.Add(studiepuntenParam);
+            cmd.Parameters.Add(game_idParam);
 
             try
             {
@@ -174,39 +175,48 @@ namespace DatabaseExample.Database
         }
 
         /// <summary>
-        /// Get all the games from the database
+        /// Get all the Studenten from the database
         /// </summary>
-        /// <returns>A List containing all the games from the database</returns>
-        public List<Game> GetAllGames()
+        /// <returns>A List containing all studenten from the database or null when failed</returns>
+        public List<Student> GetAllStudenten()
         {
-            List<Game> games = new List<Game>();
+            List<Student> studenten = new List<Student>();
 
             try
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT * FROM game";
+                string selectQuery = @"SELECT * FROM student";
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
                 while (dataReader.Read())
                 {
+                    int studentId = dataReader.GetInt32("student_id");
+                    string studentNaam = dataReader.GetString("studentnaam");
+                    DateTime geboorteDatum = dataReader.GetDateTime("geboortedatum");
                     int gameId = dataReader.GetInt32("game_id");
-                    string gameNaam = dataReader.GetString("gameNaam");
-                    int genreId = dataReader.GetInt32("genre_id");
 
-                    // Get the genre for the game
-                    GenreController gc = new GenreController();
-                    Genre genre = gc.GetGenreWithID(genreId);
+                    // Get the game for the student
+                    GameController gc = new GameController();
+                    Game g = gc.GetGameWithID(gameId);
 
-                    Game game = new Game { ID = gameId, Name = gameNaam, Genre = genre };
+                    Student stud = new Student { ID = studentId, StudentNaam = studentNaam, GeboorteDatum = geboorteDatum, Game = g };
+                    // Studiepunten can be NULL
+                    if (dataReader.IsDBNull(dataReader.GetOrdinal("studiepunten")))
+                        stud.StudiePunten = null;
+                    else
+                        stud.StudiePunten = dataReader.GetInt32("studiepunten");
 
-                    games.Add(game);
+                    // Dis shite be broke yo.
+                    //stud.StudiePunten = dataReader.IsDBNull(dataReader.GetOrdinal("studiepunten")) ? null : dataReader.GetInt32("studiepunten");
+
+                    studenten.Add(stud);
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Ophalen van games mislukt.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Ophalen van studenten mislukt.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 return null;
             }
             finally
@@ -214,23 +224,23 @@ namespace DatabaseExample.Database
                 conn.Close();
             }
 
-            return games;
+            return studenten;
         }
 
         /// <summary>
-        /// Returns a single genre when given the id of the game.
+        /// Returns a single student with the given ID.
         /// </summary>
-        /// <param name="id">ID of the game</param>
-        /// <returns></returns>
-        public Game GetGameWithID(int id)
+        /// <param name="id">ID of the student</param>
+        /// <returns>Returns a student or NULL when something has broken</returns>
+        public Student GetStudentWithID(int id)
         {
-            Game game = null;
+            Student student = null;
 
             try
             {
                 conn.Open();
 
-                string selectQuery = @"SELECT * FROM game WHERE game_id = @game_id";
+                string selectQuery = @"SELECT * FROM student WHERE student_id = @student_id";
 
                 MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
 
@@ -244,20 +254,22 @@ namespace DatabaseExample.Database
 
                 while (dataReader.Read())
                 {
+                    int studentId = dataReader.GetInt32("student_id");
+                    string studentNaam = dataReader.GetString("studentnaam");
+                    DateTime geboorteDatum = dataReader.GetDateTime("geboortedatum");
+                    int studiepunten = dataReader.GetInt32("studiepunten");
                     int gameId = dataReader.GetInt32("game_id");
-                    string gameNaam = dataReader.GetString("gamenaam");
-                    int genreId = dataReader.GetInt32("genre_id");
 
-                    // Get the genre for the game
-                    GenreController gc = new GenreController();
-                    Genre genre = gc.GetGenreWithID(genreId);
+                    // Get the game for the student
+                    GameController gc = new GameController();
+                    Game g = gc.GetGameWithID(gameId);
 
-                    game = new Game { ID = gameId, Name = gameNaam, Genre = genre };
+                    student = new Student { ID = studentId, StudentNaam = studentNaam, GeboorteDatum = geboorteDatum, StudiePunten = studiepunten, Game = g };
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Ophalen van game mislukt.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show("Ophalen van student mislukt.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 return null;
             }
             finally
@@ -265,16 +277,15 @@ namespace DatabaseExample.Database
                 conn.Close();
             }
 
-            return game;
+            return student;
         }
 
         /// <summary>
-        /// Deletes a game
-        /// Returns TRUE when the game has been successfully deleted.
+        /// Deletes a student
         /// </summary>
-        /// <param name="game">Specify the game to delete.</param>
-        /// <returns>Returns TRUE when deleting has succeded.</returns>
-        public bool DeleteGame(Game game)
+        /// <param name="student">Specify the student to delete.</param>
+        /// <returns>Returns TRUE when he student has been successfully deleted.</returns>
+        public bool DeleteStudent(Student student)
         {
             MySqlTransaction trans = null;
 
@@ -292,14 +303,14 @@ namespace DatabaseExample.Database
             try
             {
                 trans = conn.BeginTransaction();
-                string deleteQuery = @"DELETE FROM game WHERE game_id = @game_id";
+                string deleteQuery = @"DELETE FROM student WHERE student_id = @student_id";
 
                 MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
-                MySqlParameter game_idParam = new MySqlParameter("@game_id", MySqlDbType.Int32);
+                MySqlParameter student_idParam = new MySqlParameter("@student_id", MySqlDbType.Int32);
 
-                game_idParam.Value = game.ID;
+                student_idParam.Value = student.ID;
 
-                cmd.Parameters.Add(game_idParam);
+                cmd.Parameters.Add(student_idParam);
 
                 cmd.Prepare();
 

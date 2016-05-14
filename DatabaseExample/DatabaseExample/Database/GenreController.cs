@@ -8,10 +8,11 @@ namespace DatabaseExample.Database
     public class GenreController : DatabaseController
     {
         /// <summary>
-        /// Insert the given genre to the database
+        /// Insert a genre into the database
         /// </summary>
-        /// <param name="genre">The model of the genre to add</param>
-        public void InsertGenre(Genre genre)
+        /// <param name="genre">The genre to insert</param>
+        /// <returns>Returns TRUE when the genre has been successfully inserted</returns>
+        public bool InsertGenre(Genre genre)
         {
             MySqlTransaction trans = null;
             try
@@ -22,7 +23,7 @@ namespace DatabaseExample.Database
             {
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not connect to server.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             trans = conn.BeginTransaction();
@@ -46,7 +47,7 @@ namespace DatabaseExample.Database
             {
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not prepare command.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             try
@@ -58,7 +59,7 @@ namespace DatabaseExample.Database
                 trans.Rollback();
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not execute query.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             try
@@ -70,10 +71,11 @@ namespace DatabaseExample.Database
                 trans.Rollback();
                 conn.Close();
                 System.Windows.Forms.MessageBox.Show("Could not commit changes.\n" + ex, "Database Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             conn.Close();
+            return true;
         }
 
         /// <summary>
@@ -167,8 +169,8 @@ namespace DatabaseExample.Database
 
                 while (dataReader.Read())
                 {
-                    string genreNaam = dataReader.GetString("genrenaam");
                     int genreId = dataReader.GetInt32("genre_id");
+                    string genreNaam = dataReader.GetString("genrenaam");
                     bool verslavend = dataReader.GetBoolean("verslavend");
                     Genre genre = new Genre { ID = genreId, Name = genreNaam, Verslavend = verslavend};
 
@@ -258,14 +260,14 @@ namespace DatabaseExample.Database
             try
             {
                 trans = conn.BeginTransaction();
-                string deleteQuery = @"DELETE FROM genre WHERE genrenaam = @genrenaam";
+                string deleteQuery = @"DELETE FROM genre WHERE genre_id = @genre_id";
                 
                 MySqlCommand cmd = new MySqlCommand(deleteQuery, conn);
-                MySqlParameter genreParam = new MySqlParameter("@genrenaam", MySqlDbType.VarChar);
+                MySqlParameter genre_idParam = new MySqlParameter("@genre_id", MySqlDbType.Int32);
 
-                genreParam.Value = genre.Name;
+                genre_idParam.Value = genre.ID;
 
-                cmd.Parameters.Add(genreParam);
+                cmd.Parameters.Add(genre_idParam);
 
                 cmd.Prepare();
 

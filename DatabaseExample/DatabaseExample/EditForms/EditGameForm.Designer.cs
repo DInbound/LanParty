@@ -126,7 +126,9 @@
             this.Text = "Edit A Game";
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            this.AcceptButton = BTN_Game_Save;
+            this.CancelButton = BTN_Game_Cancel;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         }
 
         #endregion

@@ -75,7 +75,7 @@ namespace DatabaseExample
             }
             else
             {
-                MessageBox.Show("Name of the genre should be at least three (3) letters long");
+                MessageBox.Show("Name of the genre should be at least three (3) letters long", "Not all boxes were filled in correctly", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
 

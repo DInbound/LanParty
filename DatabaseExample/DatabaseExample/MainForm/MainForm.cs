@@ -115,7 +115,5 @@ namespace DatabaseExample
             RefreshGenreListView();
             RefreshStudentListView();
         }
-
-
     }
 }

@@ -69,6 +69,9 @@ namespace DatabaseExample
             return null;
         }
 
+        /// <summary>
+        /// Edit a game
+        /// </summary>
         public void EditGame()
         {
             using (EditGameForm form = new EditGameForm())
@@ -79,7 +82,7 @@ namespace DatabaseExample
                 {
                     form.FillForm(editThis);
 
-                    var result = form.ShowDialog();
+                    DialogResult result = form.ShowDialog();
 
                     if(result == DialogResult.OK)
                     {
@@ -91,13 +94,14 @@ namespace DatabaseExample
             }
         }
 
+        /// <summary>
+        /// Deletes a game from the database.)
+        /// </summary>
         public void DeleteGame()
         {
             Game deleteThis = GetGameFromListView();
-
-            string deleteMSG = "Are you sure you want to delete '" + deleteThis.Name + "' from the database?";
-
-            DialogResult result = MessageBox.Show(deleteMSG, "Deleting item", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+            
+            DialogResult result = MessageBox.Show("Are you sure you want to delete '" + deleteThis.Name + "' from the database?", "Deleting item", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
 
             if (deleteThis != null && result == DialogResult.OK)
             {

@@ -67,7 +67,7 @@ namespace DatabaseExample
                         }
                         else
                         {
-                            MessageBox.Show("Please fill in a correct value for 'Studiepunten'");
+                            MessageBox.Show("Please fill in a correct value for 'Studiepunten'.", "No can't do!", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                             return;
                         }
                     }
@@ -76,57 +76,60 @@ namespace DatabaseExample
                         StudentToEdit.StudiePunten = null;
                     }
                     // Fill in student game
+                    // If no game is present that is typed in, give a error message.
                     foreach (Game g in games)
                     {
                         if (CB_Student_Game.Text.Equals(g.Name))
                         {
                             StudentToEdit.Game = g;
-                            break;
+
+                            // Check if a student is present with the same name
+                            foreach (Student s in studenten)
+                            {
+                                if (s.StudentNaam.Equals(TB_Student_Name.Text))
+                                {
+                                    // A student with the same name!
+                                    DialogResult replaceResult = MessageBox.Show("The student '" + s.StudentNaam + "'already exists, do you wish to replace it?\nExtra information: \nGeboorte Datum: " + s.GeboorteDatum.ToString() + "\nStudiepunten: " + s.StudiePunten.ToString() + "\nGame: " + s.Game.Name, "Entry already exists", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
+
+                                    if (replaceResult == DialogResult.Yes)
+                                    {
+                                        StudentToEdit.ID = s.ID;
+                                        this.DialogResult = DialogResult.Yes;
+                                        this.Close();
+                                        return;
+                                    }
+                                    else if (replaceResult == DialogResult.No)
+                                    {
+                                        this.DialogResult = DialogResult.No;
+                                        this.Close();
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                }
+                            }
+
+                            // No student had the same name
+                            this.DialogResult = DialogResult.OK;
+                            this.Close();
+                            return;
                         }
                     }
 
-                    // Check if a student is present with the same name
-                    foreach (Student s in studenten)
-                    {
-                        if (s.StudentNaam.Equals(TB_Student_Name))
-                        {
-                            // A student with the same name!
-                            DialogResult replaceResult = MessageBox.Show("The student '" + s.StudentNaam + "'already exists, do you wish to replace it?\nExtra information: \nGeboorte Datum: " + s.GeboorteDatum.ToString() + "\nStudiepunten: " + s.StudiePunten.ToString() + "\nGame: " + s.Game.Name, "Entry already exists", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
-
-                            if (replaceResult == DialogResult.Yes)
-                            {
-                                StudentToEdit.ID = s.ID;
-                                this.DialogResult = DialogResult.Yes;
-                                this.Close();
-                                return;
-                            }
-                            else if (replaceResult == DialogResult.No)
-                            {
-                                this.DialogResult = DialogResult.No;
-                                this.Close();
-                                return;
-                            }
-                            else
-                            {
-                                return;
-                            }
-                        }
-                    }
-
-                    // No student had the same name
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    MessageBox.Show("No game with the name could be found, please select a valid game from the list.", "Not all boxes were filled in correctly", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("Please fill in a correct game or choose one from the list.");
+                    MessageBox.Show("Please fill in a correct game or choose one from the list.", "Not all boxes were filled in correctly", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     return;
                 }
             }
             else
             {
-                MessageBox.Show("Please fill in the name of the student.");
+                MessageBox.Show("Please fill in the name of the student." , "Not all boxes were filled in correctly", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                 return;
             }
         }

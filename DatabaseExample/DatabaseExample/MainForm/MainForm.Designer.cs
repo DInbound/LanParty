@@ -77,6 +77,11 @@
             this.TSM_File_Refresh_Game = new System.Windows.Forms.ToolStripMenuItem();
             this.TSM_File_Refresh_Genre = new System.Windows.Forms.ToolStripMenuItem();
             this.studentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CMS_ClickedStudentListBox = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.refreshToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CMS_ClickedGenreListBox.SuspendLayout();
             this.GB_ChangeValues.SuspendLayout();
             this.TC_Tabs.SuspendLayout();
@@ -87,6 +92,7 @@
             this.TAB_Student.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.TSM_MenuStrip.SuspendLayout();
+            this.CMS_ClickedStudentListBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // LV_Genre
@@ -390,6 +396,7 @@
             this.BTN_Student_Delete.TabIndex = 5;
             this.BTN_Student_Delete.Text = "Delete Student";
             this.BTN_Student_Delete.UseVisualStyleBackColor = true;
+            this.BTN_Student_Delete.Click += new System.EventHandler(this.BTN_Student_Delete_Click);
             // 
             // BTN_Student_Edit
             // 
@@ -399,6 +406,7 @@
             this.BTN_Student_Edit.TabIndex = 4;
             this.BTN_Student_Edit.Text = "Edit Student";
             this.BTN_Student_Edit.UseVisualStyleBackColor = true;
+            this.BTN_Student_Edit.Click += new System.EventHandler(this.BTN_Student_Edit_Click);
             // 
             // BTN_Student_Add
             // 
@@ -419,7 +427,7 @@
             this.Student_geboortedatum,
             this.Student_studiepunten,
             this.Student_game});
-            this.LV_Student.ContextMenuStrip = this.CMS_ClickedGenreListBox;
+            this.LV_Student.ContextMenuStrip = this.CMS_ClickedStudentListBox;
             this.LV_Student.FullRowSelect = true;
             this.LV_Student.GridLines = true;
             this.LV_Student.Location = new System.Drawing.Point(6, 6);
@@ -482,36 +490,74 @@
             this.TSM_File_Refresh_Genre,
             this.studentToolStripMenuItem});
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             // 
             // TSM_File_Refresh_All
             // 
             this.TSM_File_Refresh_All.Name = "TSM_File_Refresh_All";
-            this.TSM_File_Refresh_All.Size = new System.Drawing.Size(152, 22);
+            this.TSM_File_Refresh_All.Size = new System.Drawing.Size(115, 22);
             this.TSM_File_Refresh_All.Text = "All";
             this.TSM_File_Refresh_All.Click += new System.EventHandler(this.TSM_File_Refresh_All_Click);
             // 
             // TSM_File_Refresh_Game
             // 
             this.TSM_File_Refresh_Game.Name = "TSM_File_Refresh_Game";
-            this.TSM_File_Refresh_Game.Size = new System.Drawing.Size(152, 22);
+            this.TSM_File_Refresh_Game.Size = new System.Drawing.Size(115, 22);
             this.TSM_File_Refresh_Game.Text = "Game";
             this.TSM_File_Refresh_Game.Click += new System.EventHandler(this.TSM_File_Refresh_Game_Click);
             // 
             // TSM_File_Refresh_Genre
             // 
             this.TSM_File_Refresh_Genre.Name = "TSM_File_Refresh_Genre";
-            this.TSM_File_Refresh_Genre.Size = new System.Drawing.Size(152, 22);
+            this.TSM_File_Refresh_Genre.Size = new System.Drawing.Size(115, 22);
             this.TSM_File_Refresh_Genre.Text = "Genre";
             this.TSM_File_Refresh_Genre.Click += new System.EventHandler(this.TSM_File_Refresh_Genre_Click);
             // 
             // studentToolStripMenuItem
             // 
             this.studentToolStripMenuItem.Name = "studentToolStripMenuItem";
-            this.studentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.studentToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.studentToolStripMenuItem.Text = "Student";
             this.studentToolStripMenuItem.Click += new System.EventHandler(this.studentToolStripMenuItem_Click);
+            // 
+            // CMS_ClickedStudentListBox
+            // 
+            this.CMS_ClickedStudentListBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshToolStripMenuItem1,
+            this.addToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.deleteToolStripMenuItem});
+            this.CMS_ClickedStudentListBox.Name = "CMS_ClickedStudentListBox";
+            this.CMS_ClickedStudentListBox.Size = new System.Drawing.Size(153, 114);
+            // 
+            // refreshToolStripMenuItem1
+            // 
+            this.refreshToolStripMenuItem1.Name = "refreshToolStripMenuItem1";
+            this.refreshToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.refreshToolStripMenuItem1.Text = "Refresh";
+            this.refreshToolStripMenuItem1.Click += new System.EventHandler(this.refreshToolStripMenuItem1_Click);
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addToolStripMenuItem.Text = "Add";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -538,6 +584,7 @@
             this.groupBox1.ResumeLayout(false);
             this.TSM_MenuStrip.ResumeLayout(false);
             this.TSM_MenuStrip.PerformLayout();
+            this.CMS_ClickedStudentListBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -592,6 +639,11 @@
         private System.Windows.Forms.ColumnHeader Student_studiepunten;
         private System.Windows.Forms.ColumnHeader Student_game;
         private System.Windows.Forms.ToolStripMenuItem studentToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip CMS_ClickedStudentListBox;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
 

@@ -64,47 +64,48 @@ namespace DatabaseExample
                     GameToEdit.Name = TB_Game_Name.Text;
 
                     // Get the genre object from the list of genres
+                    // And if the genere list doesnt contain the genre typed in, give a message.
                     foreach (Genre gen in genres)
                     {
                         if (CB_Game_Genre.Text.Equals(gen.Name))
                         {
                             GameToEdit.Genre = gen;
-                            break;
-                        }
-                    }
 
-                    // Check if a game is present with the same name
-                    foreach (Game g in games)
-                    {
-                        if (g.Name.Equals(TB_Game_Name.Text))
-                        {
-                            // A game is present with the same name!
-                            DialogResult replaceResult = MessageBox.Show("The game '" + g.Name + "'already exists, do you wish to replace it?", "Entry already exists", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
-
-                            if(replaceResult == DialogResult.Yes)
+                            // Check if a game is present with the same name
+                            foreach (Game g in games)
                             {
-                                GameToEdit.ID = g.ID;
-                                this.DialogResult = DialogResult.Yes;
+                                if (g.Name.Equals(TB_Game_Name.Text))
+                                {
+                                    // A game is present with the same name!
+                                    DialogResult replaceResult = MessageBox.Show("The game '" + g.Name + "'already exists, do you wish to replace it?", "Entry already exists", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
+
+                                    if(replaceResult == DialogResult.Yes)
+                                    {
+                                        GameToEdit.ID = g.ID;
+                                        this.DialogResult = DialogResult.Yes;
+                                        this.Close();
+                                        return;
+                                    }
+                                    else if (replaceResult == DialogResult.No)
+                                    {
+                                        this.DialogResult = DialogResult.No;
+                                        this.Close();
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        return;
+                                    }
+                                }
+                                // No game had the same name
+                                this.DialogResult = DialogResult.OK;
                                 this.Close();
                                 return;
                             }
-                            else if (replaceResult == DialogResult.No)
-                            {
-                                this.DialogResult = DialogResult.No;
-                                this.Close();
-                                return;
-                            }
-                            else
-                            {
-                                return;
-                            }
                         }
                     }
 
-
-                    // No game had the same name
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    MessageBox.Show("The genre given could not be found, please select one from the drop-down list");
                     return;
                 }
 

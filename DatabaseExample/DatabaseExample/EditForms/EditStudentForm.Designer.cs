@@ -48,21 +48,21 @@
             this.TB_Student_ID.Name = "TB_Student_ID";
             this.TB_Student_ID.ReadOnly = true;
             this.TB_Student_ID.Size = new System.Drawing.Size(200, 20);
-            this.TB_Student_ID.TabIndex = 0;
+            this.TB_Student_ID.TabIndex = 6;
             // 
             // TB_Student_Name
             // 
             this.TB_Student_Name.Location = new System.Drawing.Point(81, 39);
             this.TB_Student_Name.Name = "TB_Student_Name";
             this.TB_Student_Name.Size = new System.Drawing.Size(200, 20);
-            this.TB_Student_Name.TabIndex = 1;
+            this.TB_Student_Name.TabIndex = 0;
             // 
             // DTP_Student_Geboortedatum
             // 
             this.DTP_Student_Geboortedatum.Location = new System.Drawing.Point(81, 65);
             this.DTP_Student_Geboortedatum.Name = "DTP_Student_Geboortedatum";
             this.DTP_Student_Geboortedatum.Size = new System.Drawing.Size(200, 20);
-            this.DTP_Student_Geboortedatum.TabIndex = 2;
+            this.DTP_Student_Geboortedatum.TabIndex = 1;
             // 
             // label1
             // 
@@ -96,7 +96,7 @@
             this.TB_Student_Studiepunten.Location = new System.Drawing.Point(81, 92);
             this.TB_Student_Studiepunten.Name = "TB_Student_Studiepunten";
             this.TB_Student_Studiepunten.Size = new System.Drawing.Size(200, 20);
-            this.TB_Student_Studiepunten.TabIndex = 6;
+            this.TB_Student_Studiepunten.TabIndex = 2;
             // 
             // label4
             // 
@@ -113,7 +113,7 @@
             this.CB_Student_Game.Location = new System.Drawing.Point(81, 119);
             this.CB_Student_Game.Name = "CB_Student_Game";
             this.CB_Student_Game.Size = new System.Drawing.Size(200, 21);
-            this.CB_Student_Game.TabIndex = 8;
+            this.CB_Student_Game.TabIndex = 3;
             // 
             // label5
             // 
@@ -129,7 +129,7 @@
             this.BTN_Student_Save.Location = new System.Drawing.Point(43, 150);
             this.BTN_Student_Save.Name = "BTN_Student_Save";
             this.BTN_Student_Save.Size = new System.Drawing.Size(94, 23);
-            this.BTN_Student_Save.TabIndex = 10;
+            this.BTN_Student_Save.TabIndex = 4;
             this.BTN_Student_Save.Text = "Save";
             this.BTN_Student_Save.UseVisualStyleBackColor = true;
             this.BTN_Student_Save.Click += new System.EventHandler(this.BTN_Student_Save_Click);
@@ -139,7 +139,7 @@
             this.BTN_Student_Cancel.Location = new System.Drawing.Point(143, 150);
             this.BTN_Student_Cancel.Name = "BTN_Student_Cancel";
             this.BTN_Student_Cancel.Size = new System.Drawing.Size(95, 23);
-            this.BTN_Student_Cancel.TabIndex = 11;
+            this.BTN_Student_Cancel.TabIndex = 5;
             this.BTN_Student_Cancel.Text = "Cancel";
             this.BTN_Student_Cancel.UseVisualStyleBackColor = true;
             this.BTN_Student_Cancel.Click += new System.EventHandler(this.BTN_Student_Cancel_Click);
@@ -168,7 +168,9 @@
             this.Text = "Edit A Student";
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            this.AcceptButton = BTN_Student_Save;
+            this.CancelButton = BTN_Student_Cancel;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         }
 
         #endregion

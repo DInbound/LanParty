@@ -29,11 +29,11 @@ namespace DatabaseExample
         /// </summary>
         public void AddStudent()
         {
-            using (EditStudentForm form = new EditStudentForm(false))
+            using (EditStudentForm form = new EditStudentForm(true))
             {
                 DialogResult result = form.ShowDialog();
 
-                if (result == DialogResult.OK || result == DialogResult.No)
+                if (result == DialogResult.No)
                 {
                     studentController.InsertStudent(form.StudentToEdit);
                     DatabaseNotification("Student successfully added.");
@@ -74,7 +74,7 @@ namespace DatabaseExample
         /// </summary>
         public void EditStudent()
         {
-            using (EditStudentForm form = new EditStudentForm(true))
+            using (EditStudentForm form = new EditStudentForm(false))
             {
                 Student editThis = GetStudentFromListView();
 
@@ -84,7 +84,7 @@ namespace DatabaseExample
 
                     DialogResult result = form.ShowDialog();
 
-                    if(result == DialogResult.OK || result == DialogResult.Yes)
+                    if(result == DialogResult.Yes)
                     {
                         studentController.StudentUpdate(form.StudentToEdit);
                         DatabaseNotification("Student successfully updated.");

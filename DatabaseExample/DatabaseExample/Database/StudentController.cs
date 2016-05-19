@@ -202,6 +202,7 @@ namespace DatabaseExample.Database
                     Game g = gc.GetGameWithID(gameId);
 
                     Student stud = new Student { ID = studentId, StudentNaam = studentNaam, GeboorteDatum = geboorteDatum, Game = g };
+                    
                     // Studiepunten can be NULL
                     if (dataReader.IsDBNull(dataReader.GetOrdinal("studiepunten")))
                         stud.StudiePunten = null;
@@ -209,7 +210,7 @@ namespace DatabaseExample.Database
                         stud.StudiePunten = dataReader.GetInt32("studiepunten");
 
                     // Dis shite be broke yo.
-                    //stud.StudiePunten = dataReader.IsDBNull(dataReader.GetOrdinal("studiepunten")) ? null : dataReader.GetInt32("studiepunten");
+                    //stud.StudiePunten = dataReader.IsDBNull(dataReader.GetOrdinal("studiepunten")) ? (int?)null : dataReader.GetInt32("studiepunten");
 
                     studenten.Add(stud);
                 }
